@@ -9,13 +9,26 @@ class AdminController extends Controller {
 
     public function ventas() {
         $ventaModel = $this->loadModel('Venta');
+        $totalVentas = 0;
+    
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $ventas = $ventaModel->getVentas($_POST['inicio'], $_POST['fin']);
+            $inicio = $_POST['inicio'];
+            $fin = $_POST['fin'];
         } else {
-            $ventas = $ventaModel->getVentas(date('Y-m-01'), date('Y-m-d'));
+            $inicio = date('Y-m-01');
+            $fin = date('Y-m-d');
         }
-        $this->loadView('admin/ventas', ['ventas' => $ventas]);
+    
+        $ventas = $ventaModel->getVentas($inicio, $fin);
+    
+        // Calcular el total de ventas
+        foreach ($ventas as $venta) {
+            $totalVentas += $venta['total'];
+        }
+    
+        $this->loadView('admin/ventas', ['ventas' => $ventas, 'totalVentas' => $totalVentas]);
     }
+    
 
     public function agregarProducto() {
         $productoModel = $this->loadModel('Producto');
@@ -26,19 +39,33 @@ class AdminController extends Controller {
     }
 
     public function graficas() {
+        // Cargar el modelo Venta
         $ventaModel = $this->loadModel('Venta');
+    
+        // Lógica para obtener datos para las gráficas
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $ventas = $ventaModel->getVentas($_POST['inicio'], $_POST['fin']);
-            $labels = [];
-            $data = [];
-            foreach ($ventas as $venta) {
-                $labels[] = $venta['created_at'];
-                $data[] = $venta['total'];
-            }
-            $this->loadView('admin/graficas', ['labels' => $labels, 'data' => $data]);
+            $inicio = $_POST['inicio'];
+            $fin = $_POST['fin'];
+    
+            // Obtener datos para las gráficas desde el modelo Venta
+            $ventasPorFecha = $ventaModel->getVentasPorFecha($inicio, $fin);
+            $ventasPorHora = $ventaModel->getVentasPorHora($inicio, $fin);
+            $productosMasVendidosFecha = $ventaModel->getProductosMasVendidosPorFecha($inicio, $fin);
+            $productosMasVendidosHora = $ventaModel->getProductosMasVendidosPorHora($inicio, $fin);
+    
+            // Cargar la vista de gráficas con los datos
+            $this->loadView('admin/graficas', [
+                'ventasPorFecha' => $ventasPorFecha,
+                'ventasPorHora' => $ventasPorHora,
+                'productosMasVendidosFecha' => $productosMasVendidosFecha,
+                'productosMasVendidosHora' => $productosMasVendidosHora,
+            ]);
         } else {
+            // Cargar la vista de gráficas sin datos (primera carga)
             $this->loadView('admin/graficas');
         }
     }
+
+
 }
 ?>

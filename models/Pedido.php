@@ -6,6 +6,23 @@ class Pedido extends Model {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getPedidosPorNroOrden($nro_orden) {
+        $stmt = $this->db->prepare("
+            SELECT pedidos.*, productos.nombre, productos.precio 
+            FROM pedidos 
+            INNER JOIN productos ON pedidos.producto_id = productos.id 
+            WHERE pedidos.nro_orden = :nro_orden
+        ");
+        $stmt->execute(['nro_orden' => $nro_orden]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function createVenta($data) {
+        $stmt = $this->db->prepare("INSERT INTO ventas (nro_orden, total, created_at) VALUES (:nro_orden, :total, :created_at)");
+        return $stmt->execute($data);
+    }
+    
+
     public function createPedido($data) {
         $stmt = $this->db->prepare("INSERT INTO pedidos (mozo_id, cliente, mesa, producto_id, cantidad, estado, created_at, nro_orden) VALUES (:mozo_id, :cliente, :mesa, :producto_id, :cantidad, :estado, :created_at, :nro_orden)");
         return $stmt->execute($data);

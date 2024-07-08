@@ -19,6 +19,50 @@ class MozoController extends Controller {
         ]);
     }
 
+    public function generarBoleta() {
+        $data = [];
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $nro_orden = $_POST['nro_orden'];
+    
+            $pedidoModel = $this->loadModel('Pedido');
+            $pedidos = $pedidoModel->getPedidosPorNroOrden($nro_orden);
+    
+            // Calcular el total
+            $total = 0;
+            foreach ($pedidos as $pedido) {
+                $total += $pedido['cantidad'] * $pedido['precio'];
+            }
+    
+            // Guardar la boleta en la base de datos 'ventas'
+            $ventaData = [
+                'nro_orden' => $nro_orden,
+                'total' => $total,
+                'created_at' => date('Y-m-d H:i:s')
+            ];
+            $pedidoModel->createVenta($ventaData);
+
+            // Agregar los datos generados al array de datos para la vista
+            $data['boleta'] = [
+                'nro_orden' => $nro_orden,
+                'total' => $total,
+                'created_at' => $ventaData['created_at'],
+                'pedidos' => $pedidos
+            ];
+        }
+
+        // Cargar la vista para generar la boleta (formulario de selección de número de orden)
+        $pedidoModel = $this->loadModel('Pedido');
+        $ordenes = $pedidoModel->getAllOrdenes();
+    
+        $data['ordenes'] = $ordenes;
+    
+        $this->loadView('mozo/generarBoleta', $data);
+    }
+
+    
+    
+
     public function fetchPedidos() {
         $pedidoModel = $this->loadModel('Pedido');
         $pedidos = $pedidoModel->getPedidos($_SESSION['user']['id']);
