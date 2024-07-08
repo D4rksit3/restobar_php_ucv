@@ -1,3 +1,31 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+
+// Verificar si el usuario está logueado y tiene un rol específico
+session_start(); // Iniciar la sesión (si no está iniciada)
+
+// Verificar si hay una sesión activa y si el usuario tiene un rol específico
+if (isset($_SESSION['user'])) {
+    switch ($_SESSION['user']['role']) {
+        case 'mozo':
+            header('Location: index.php?controller=mozo&action=index');
+            exit();
+        case 'cocinero':
+            header('Location: index.php?controller=cocinero&action=index');
+            exit();
+        case 'administrador':
+            header('Location: index.php?controller=admin&action=ventas');
+            exit();
+        // Agregar más casos según los roles de tu aplicación
+        default:
+            // Si no se encuentra un rol específico, redirigir a una página por defecto
+            header('Location: index.php'); // Página de inicio o cualquier otra página por defecto
+            exit();
+    }
+}
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

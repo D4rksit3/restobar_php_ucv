@@ -1,3 +1,9 @@
+
+<?php
+
+date_default_timezone_set('America/Lima');
+
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -65,7 +71,7 @@
                     <li class="nav-item"><a class="nav-link" href="index.php?controller=cocinero&action=index">Pedidos</a></li>
                 <?php endif; ?>
                 <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'administrador'): ?>
-                    <li class="nav-item"><a class="nav-link" href="index.php?controller=admin&action=agregarproducto">Agregar Productos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php?controller=admin&action=administrarProductosCategorias">Agregar Productos</a></li>
                     <li class="nav-item"><a class="nav-link" href="index.php?controller=admin&action=graficas">Graficas</a></li>
                     <li class="nav-item"><a class="nav-link" href="index.php?controller=admin&action=ventas">Ventas</a></li>
                 <?php endif; ?>

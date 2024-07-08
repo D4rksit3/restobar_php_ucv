@@ -1,4 +1,7 @@
+
+
 <?php
+date_default_timezone_set('America/Lima');
 class MozoController extends Controller {
     public function __construct() {
         $this->requireLogin();
@@ -110,7 +113,9 @@ class MozoController extends Controller {
     }
 
     public function agregarProducto() {
-        date_default_timezone_set('America/Lima');
+        $timezone = new DateTimeZone('America/Lima');
+        $now = new DateTime('now', $timezone);
+    
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pedidoModel = $this->loadModel('Pedido');
             $data = [
@@ -120,7 +125,7 @@ class MozoController extends Controller {
                 'mesa' => '', // Puedes ajustar esto según sea necesario
                 'cantidad' => $_POST['cantidad'],
                 'estado' => 'pendiente',
-                'created_at' => date('Y-m-d H:i:s'),
+                'created_at' => $now->format('Y-m-d H:i:s'),
                 'nro_orden' => $_POST['nro_orden']
             ];
             $pedidoModel->createPedido($data);

@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('America/Lima');
 class AdminController extends Controller {
     public function __construct() {
         $this->requireLogin();
@@ -30,14 +31,39 @@ class AdminController extends Controller {
     }
     
 
+    public function administrarProductosCategorias() {
+        $productoModel = $this->loadModel('Producto');
+
+        // Obtener todos los productos y categorías para mostrar en la vista
+        $productos = $productoModel->getAllProductos();
+        $categorias = $productoModel->getAllCategorias();
+ // Imprimir los datos para depuración
+        echo '<pre>';
+        print_r($productos);
+        print_r($categorias);
+        echo '</pre>';
+        // Cargar la vista con los datos de productos y categorías
+        $this->loadView('admin/agregar_producto_categoria', ['productos' => $productos, 'categorias' => $categorias]);
+    }
+
     public function agregarProducto() {
         $productoModel = $this->loadModel('Producto');
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $productoModel->addProducto($_POST['nombre'], $_POST['precio']);
+            $productoModel->addProducto($_POST['nombre'], $_POST['precio'], $_POST['categoria_id']);
+            $this->redirect('index.php?controller=admin&action=administrarProductosCategorias');
         }
-        $this->loadView('admin/agregar_producto');
     }
 
+    public function agregarCategoria() {
+        $productoModel = $this->loadModel('Producto');
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $productoModel->addCategoria($_POST['nombre']);
+            $this->redirect('index.php?controller=admin&action=administrarProductosCategorias');
+        }
+    }
+
+
+    
     public function graficas() {
         // Cargar el modelo Venta
         $ventaModel = $this->loadModel('Venta');

@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('America/Lima');
 class CocineroController extends Controller {
     public function __construct() {
         $this->requireLogin();
