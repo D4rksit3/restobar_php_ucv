@@ -1,8 +1,9 @@
 <?php
 class View {
-    public static function render($view, $data = []) {
+    public function loadView($view, $data = []) {
         extract($data);
-        require '../views/' . $view . '.php';
+        require_once "../views/{$view}.php";
     }
+    
 }
 ?>

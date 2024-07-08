@@ -1,3 +1,4 @@
+<div class="container">
 <h2>Agregar Producto</h2>
 <form action="index.php?controller=admin&action=agregarProducto" method="POST">
     <div class="form-group">

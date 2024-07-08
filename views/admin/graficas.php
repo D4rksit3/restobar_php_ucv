@@ -1,3 +1,4 @@
+<div class="container">
 <h2>Gráficas de Ventas</h2>
 <form action="index.php?controller=admin&action=graficas" method="POST">
     <div class="form-group">

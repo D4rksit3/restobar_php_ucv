@@ -17,11 +17,14 @@ class Controller {
     }
 
     public function isLoggedIn() {
+        
         return isset($_SESSION['user']);
     }
 
     public function requireLogin() {
         if (!$this->isLoggedIn()) {
+            
+        
             $this->redirect('index.php?controller=auth&action=login');
         }
     }

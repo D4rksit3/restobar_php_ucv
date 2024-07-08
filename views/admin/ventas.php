@@ -1,3 +1,5 @@
+
+<div class="container">
 <h2>Ventas</h2>
 <form action="index.php?controller=admin&action=ventas" method="POST">
     <div class="form-group">
