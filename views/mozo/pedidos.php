@@ -2,7 +2,7 @@
 
 <div class="container mt-5">
     <h2>Mis Pedidos</h2>
-    <table class="table table-bordered">
+    <table id="pedidos-table" class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>Orden</th>
@@ -23,13 +23,13 @@
                     <td><?= $pedido['cantidad']; ?></td>
                     <td style="color: <?php
                         if ($pedido['estado'] == 'pendiente') {
-                            echo 'red'; // Color rojo para pendiente
+                            echo 'red';
                         } elseif ($pedido['estado'] == 'en proceso') {
-                            echo 'orange'; // Color amarillo para en proceso
+                            echo 'orange';
                         } elseif ($pedido['estado'] == 'realizado') {
-                            echo 'green'; // Color verde para realizado
+                            echo 'green';
                         } else {
-                            echo 'black'; // Color negro por defecto o manejar otro caso si es necesario
+                            echo 'black';
                         }
                     ?>;">
                         <?= $pedido['estado']; ?>
@@ -43,39 +43,13 @@
 </div>
 
 <script>
-    function fetchPedidos() {
-        fetch('index.php?controller=mozo&action=fetchPedidos')
-            .then(response => response.json())
-            .then(data => {
-                let tbody = document.getElementById('pedidos-body');
-                tbody.innerHTML = '';
-                data.pedidos.forEach(pedido => {
-                    let color;
-                    if (pedido.estado === 'pendiente') {
-                        color = 'red';
-                    } else if (pedido.estado === 'en proceso') {
-                        color = 'orange';
-                    } else if (pedido.estado === 'realizado') {
-                        color = 'green';
-                    } else {
-                        color = 'black';
-                    }
-                    tbody.innerHTML += `
-                        <tr>
-                            <td>${pedido.nro_orden}</td>
-                            <td>${pedido.nombre}</td>
-                            <td>${pedido.mesa}</td>
-                            <td>${pedido.cantidad}</td>
-                            <td style="color: ${color};">${pedido.estado}</td>
-                            <td>${pedido.created_at}</td>
-                            <td>${pedido.cliente}</td>
-                        </tr>
-                    `;
-                });
-            });
-    }
-
-    setInterval(fetchPedidos, 5000); // Actualiza cada 5 segundos
+    $(document).ready(function() {
+        $('#pedidos-table').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+            }
+        });
+    });
 </script>
 
 <?php include_once '../views/layouts/footer.php'; ?>

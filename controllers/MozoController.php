@@ -110,6 +110,7 @@ class MozoController extends Controller {
     }
 
     public function agregarProducto() {
+        date_default_timezone_set('America/Lima');
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pedidoModel = $this->loadModel('Pedido');
             $data = [
