@@ -1,6 +1,6 @@
 <?php
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_HOST', '54.245.199.140');
+define('DB_USER', 'restobar');
+define('DB_PASS', 'DyEo3mVn*');
 define('DB_NAME', 'restobar');
 ?>
