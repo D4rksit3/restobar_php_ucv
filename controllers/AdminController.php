@@ -38,13 +38,21 @@ class AdminController extends Controller {
         $productos = $productoModel->getAllProductos();
         $categorias = $productoModel->getAllCategorias();
  // Imprimir los datos para depuración
-        echo '<pre>';
-        print_r($productos);
-        print_r($categorias);
-        echo '</pre>';
+        
+       /*  $productos=print_r($productos);
+        $categorias=print_r($categorias); */
+    
+
+       // Pasar los datos a la vista
+        $data['categorias'] = $categorias;
+        $data['productos'] = $productos;
+       
+        /* 
+         */
+
         // Cargar la vista con los datos de productos y categorías
-        $this->loadView('admin/agregar_producto_categoria', ['productos' => $productos, 'categorias' => $categorias]);
-    }
+        $this->loadView('admin/agregar', $data);
+        }
 
     public function agregarProducto() {
         $productoModel = $this->loadModel('Producto');

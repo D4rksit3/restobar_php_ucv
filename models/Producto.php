@@ -6,8 +6,9 @@ class Producto extends Model {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+
     public function getAllCategorias() {
-        $stmt = $this->db->prepare("SELECT * FROM categorias");
+        $stmt = $this->db->prepare("SELECT id,nombre FROM categorias");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

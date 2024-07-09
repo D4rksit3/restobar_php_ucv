@@ -44,7 +44,7 @@
                         <div class="form-group">
                             <label for="categoriaProducto">Categoría</label>
                             <select class="form-control" id="categoriaProducto" name="categoria_id" required>
-                                <?php foreach ($categorias as $categoria): ?>
+                                <?php foreach ($data['categorias'] as $categoria): ?>
                                     <option value="<?php echo $categoria['id']; ?>"><?php echo $categoria['nombre']; ?></option>
                                 <?php endforeach; ?>
                             </select>
@@ -88,8 +88,8 @@
     <!-- Lista de Categorías -->
     <h3>Categorías</h3>
     <ul class="list-group mb-4">
-        <?php if (!empty($categorias)): ?>
-            <?php foreach ($categorias as $categoria): ?>
+        <?php if (!empty($data['categorias'])): ?>
+            <?php foreach ($data['categorias'] as $categoria): ?>
                 <li class="list-group-item"><?php echo $categoria['nombre']; ?></li>
             <?php endforeach; ?>
         <?php else: ?>
@@ -100,8 +100,8 @@
     <!-- Lista de Productos -->
     <h3>Productos</h3>
     <ul class="list-group">
-        <?php if (!empty($productos)): ?>
-            <?php foreach ($productos as $producto): ?>
+        <?php if (!empty($data['productos'])): ?>
+            <?php foreach ($data['productos'] as $producto): ?>
                 <li class="list-group-item">
                     <?php echo $producto['nombre']; ?> - <?php echo $producto['precio']; ?> - Categoría: <?php echo $producto['categoria_nombre']; ?>
                 </li>
