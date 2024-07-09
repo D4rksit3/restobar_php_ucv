@@ -1,5 +1,6 @@
 <?php
 date_default_timezone_set('America/Lima');
+
 class CocineroController extends Controller {
     public function __construct() {
         $this->requireLogin();
@@ -14,39 +15,28 @@ class CocineroController extends Controller {
         $this->loadView('cocinero/pedidos', ['pedidos' => $pedidos]);
     }
 
-    public function fetchPedidos() {
-        $pedidoModel = $this->loadModel('Pedido');
-        $pedidos = $pedidoModel->getAllPedidos();
-        echo json_encode(['pedidos' => $pedidos]);
-    }
-
     public function cambiarEstado() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pedido_id = $_POST['pedido_id'];
             $estado = $_POST['estado'];
 
+            if (empty($pedido_id) || empty($estado)) {
+                echo 'Datos incompletos';
+                return;
+            }
+
             $pedidoModel = $this->loadModel('Pedido');
             $success = $pedidoModel->updateEstado($pedido_id, $estado);
 
             if ($success) {
-                // Envía una respuesta JSON para indicar éxito
-                header('Content-Type: application/json');
-                echo json_encode(['success' => true]);
-                exit;
+                $this->redirect('index.php?controller=cocinero&action=index');
             } else {
-                // Envía una respuesta JSON para indicar error
-                header('Content-Type: application/json');
-                echo json_encode(['success' => false, 'message' => 'Error al actualizar el estado del pedido']);
-                exit;
+                echo 'Error al actualizar el estado del pedido';
             }
         } else {
-            // Envía una respuesta JSON para indicar error de método no permitido
-            header('Content-Type: application/json');
-            echo json_encode(['success' => false, 'message' => 'Acceso no permitido']);
-            exit;
+            echo 'Método no permitido';
         }
     }
-
 
     public function getData() {
         // Aquí obtienes los datos de los pedidos
@@ -99,7 +89,10 @@ class CocineroController extends Controller {
         }
         return $maxTime;
     }
-    
-    
+
+    public function redirect($url) {
+        header("Location: $url");
+        exit;
+    }
 }
 ?>

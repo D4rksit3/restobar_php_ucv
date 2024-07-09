@@ -21,12 +21,14 @@ class Pedido extends Model {
         $stmt = $this->db->prepare("INSERT INTO ventas (nro_orden, total, created_at) VALUES (:nro_orden, :total, :created_at)");
         return $stmt->execute($data);
     }
-    
 
     public function createPedido($data) {
         $stmt = $this->db->prepare("INSERT INTO pedidos (mozo_id, cliente, mesa, producto_id, cantidad, estado, created_at, nro_orden) VALUES (:mozo_id, :cliente, :mesa, :producto_id, :cantidad, :estado, :created_at, :nro_orden)");
         return $stmt->execute($data);
     }
+
+    
+
 
     public function updateEstado($pedido_id, $estado) {
         $stmt = $this->db->prepare("UPDATE pedidos SET estado = :estado, updated_at = NOW() WHERE id = :pedido_id");
@@ -39,8 +41,6 @@ class Pedido extends Model {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-   
-
     public function getCategorias() {
         return $this->db->query("SELECT id, nombre FROM categorias")->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -50,7 +50,7 @@ class Pedido extends Model {
     }
 
     public function getAllPedidos() {
-        $stmt = $this->db->prepare("SELECT * FROM pedidos INNER JOIN productos ON pedidos.producto_id = productos.id WHERE pedidos.created_at >= NOW() - INTERVAL 8 HOUR");
+        $stmt = $this->db->prepare("SELECT pedidos.*, productos.nombre FROM pedidos INNER JOIN productos ON pedidos.producto_id = productos.id WHERE pedidos.created_at >= NOW() - INTERVAL 8 HOUR");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -62,7 +62,5 @@ class Pedido extends Model {
     public function getAllOrdenes() {
         return $this->db->query("SELECT DISTINCT nro_orden FROM pedidos")->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-    
 }
 ?>
