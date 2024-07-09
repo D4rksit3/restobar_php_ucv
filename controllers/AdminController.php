@@ -16,8 +16,8 @@ class AdminController extends Controller {
             $inicio = $_POST['inicio'];
             $fin = $_POST['fin'];
         } else {
-            $inicio = date('Y-m-01');
-            $fin = date('Y-m-d');
+            $inicio = date('Y-m-d 00:00:00');
+            $fin = date('Y-m-d 23:59:59');
         }
     
         $ventas = $ventaModel->getVentas($inicio, $fin);

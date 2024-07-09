@@ -24,7 +24,7 @@
                 data: {
                     labels: <?= json_encode(array_column($data['ventasPorFecha'], 'fecha')); ?>,
                     datasets: [{
-                        label: 'Ventas por Fecha',
+                        label: 'Ventas por Fecha S/',
                         data: <?= json_encode(array_column($data['ventasPorFecha'], 'total_ventas')); ?>,
                         backgroundColor: 'rgba(54, 162, 235, 0.2)',
                         borderColor: 'rgba(54, 162, 235, 1)',
@@ -54,7 +54,7 @@
                 data: {
                     labels: <?= json_encode(array_column($data['ventasPorHora'], 'hora')); ?>,
                     datasets: [{
-                        label: 'Ventas por Hora',
+                        label: 'Ventas por Hora S/',
                         data: <?= json_encode(array_column($data['ventasPorHora'], 'total_ventas')); ?>,
                         backgroundColor: 'rgba(75, 192, 192, 0.2)',
                         borderColor: 'rgba(75, 192, 192, 1)',
