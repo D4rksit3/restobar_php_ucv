@@ -17,28 +17,25 @@ restobar/
 │   ├── MozoController.php
 │   ├── CocineroController.php
 │   ├── AdminController.php
-│   └── ProductoController.php
 │
 ├── views/
 │   ├── login.php
 │   ├── mozo/
 │   │   ├── pedidos.php
 │   │   └── estado.php
+|   |   |__ generarBoleta.php
 │   ├── cocinero/
 │   │   └── pedidos.php
+|   |
 │   ├── admin/
 │   │   ├── ventas.php
-│   │   ├── agregar_producto.php
+│   │   ├── agregar.php
 │   │   └── graficas.php
 │   └── layouts/
 │       └── header.php
 │       └── footer.php
 │
 ├── public/
-│   ├── css/
-│   │   └── styles.css
-│   ├── js/
-│   │   └── scripts.js
 │   └── index.php
 │
 ├── .htaccess
