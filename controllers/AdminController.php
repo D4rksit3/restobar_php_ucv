@@ -7,7 +7,7 @@ class AdminController extends Controller {
             $this->redirect('index.php?controller=auth&action=login');
         }
     }
-
+// parte inicial
     public function ventas() {
         $ventaModel = $this->loadModel('Venta');
         $totalVentas = 0;
